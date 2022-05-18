@@ -30,4 +30,11 @@ describe "Merchant API" do
     expect(merchant).to have_key(:name)
     expect(merchant[:name]).to be_a(String)
   end
+  #it 'sends items for merchant' do
+  #  id = create(:merchant).id
+  #  get "/api/v1/merchants/#{id}/items"
+
+  #  items = JSON.parse(response.body, symbolize_names: true)
+
+#  end
 end
