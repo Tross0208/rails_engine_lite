@@ -1,9 +1,10 @@
 class Api::V1::MerchantsController < ApplicationController
   def index
-    render json: Merchant.all
+    #binding.pry
+    render json: MerchantSerializer.new(Merchant.all).serializable_hash.to_json
   end
 
   def show
-    render json: Merchant.find(params[:id])
+    render json: MerchantsSerializer.format_merchants(Merchant.find(params[:id])), status: :ok
   end
 end

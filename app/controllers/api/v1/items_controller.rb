@@ -1,12 +1,14 @@
 class Api::V1::ItemsController < ApplicationController
   def index
-    render json: Item.all
+    render json: ItemsSerializer.format_items(Item.all), status: :ok
   end
+
   def show
-    render json: Item.find(params[:id])
+    render json: ItemsSerializer.format_items(Item.find(params[:id])), status: :ok
   end
+
   def create
-    render json: Item.create(item_params)
+    render json: ItemsSerializer.format_items(Item.create(item_params)), status: :ok
   end
 
 private
