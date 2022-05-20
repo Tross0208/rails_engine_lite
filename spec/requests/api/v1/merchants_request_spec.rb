@@ -30,11 +30,21 @@ describe "Merchant API" do
     expect(merchant[:data][:attributes]).to have_key(:name)
     expect(merchant[:data][:attributes][:name]).to be_a(String)
   end
-  #it 'sends items for merchant' do
-  #  id = create(:merchant).id
-  #  get "/api/v1/merchants/#{id}/items"
 
-  #  items = JSON.parse(response.body, symbolize_names: true)
+  it 'sends items for merchant' do
+    merchant1 = create(:merchant)
+    merchant2 = create(:merchant)
+    item0 = create :item, {merchant_id: merchant1.id}
+    item1 = create :item, {merchant_id: merchant1.id}
+    item2 = create :item, {merchant_id: merchant1.id}
+    item3 = create :item, {merchant_id: merchant1.id}
+    item4 = create :item, {merchant_id: merchant2.id}
+    get "/api/v1/merchants/#{merchant1.id}/items"
 
-#  end
+    items = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(items[:data].count).to eq(4)
+
+  end
 end
