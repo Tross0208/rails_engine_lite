@@ -4,10 +4,10 @@ describe "Items API" do
   it 'sends all Items' do
     id = create(:merchant).id
 
-    @item0 = create :item, {merchant_id: id}
-    @item1 = create :item, {merchant_id: id}
-    @item2 = create :item, {merchant_id: id}
-    @item3 = create :item, {merchant_id: id}
+    item0 = create :item, {merchant_id: id}
+    item1 = create :item, {merchant_id: id}
+    item2 = create :item, {merchant_id: id}
+    item3 = create :item, {merchant_id: id}
 
     get '/api/v1/items'
 
@@ -96,6 +96,21 @@ describe "Items API" do
     expect(response).to be_successful
     expect(Item.count).to eq(0)
     expect{Item.find(item0.id)}.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
+  it 'sends Items Merchant' do
+    merch_id = create(:merchant).id
+    item0 = create :item, {merchant_id: merch_id}
+    merch2 = create(:merchant)
+
+    get "/api/v1/items/#{item0.id}/merchant"
+    merchant = JSON.parse(response.body, symbolize_names: true)
+    #binding.pry
+    expect(response).to be_successful
+    expect(merchant[:data]).to have_key(:id)
+    expect(merchant[:data][:id]).to be_an(String)
+    expect(merchant[:data][:id]).to eq("#{merch_id}")
+
   end
 
 end
