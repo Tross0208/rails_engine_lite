@@ -5,6 +5,6 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def show
-    render json: MerchantsSerializer.format_merchants(Merchant.find(params[:id])), status: :ok
+    render json: MerchantSerializer.new(Merchant.find(params[:id])).serializable_hash.to_json
   end
 end
